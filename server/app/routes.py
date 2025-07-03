@@ -39,3 +39,6 @@ def get_events():
     except Exception as e:
         current_app.logger.error(f"Fetching events failed: {e}")
         return jsonify({"error": str(e)}), 500
+
+
+#NEW git update
