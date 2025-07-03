@@ -101,21 +101,16 @@ def get_events():
     """
     try:
         events_collection = app.config["EVENTS_COLLECTION"]
-        show_all = request.args.get("all", "false").lower() == "true"
-
-        if show_all:
-            query = {}
-            logger.info("📥 Fetching latest 20 events (no time filter)")
-        else:
-            now = datetime.utcnow()
-            time_threshold = now - timedelta(seconds=15)
-            query = {
+        
+        now = datetime.utcnow()
+        time_threshold = now - timedelta(seconds=15)
+        query = {
                 "timestamp": {
                     "$gte": time_threshold,
                     "$lte": now
                 }
             }
-            logger.info(f"🕒 Fetching events from {time_threshold.isoformat()} to {now.isoformat()}")
+        logger.info(f"🕒 Fetching events from {time_threshold.isoformat()} to {now.isoformat()}")
 
         results = list(events_collection.find(query).sort("timestamp", -1).limit(20))
 
